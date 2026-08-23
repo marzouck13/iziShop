@@ -1,0 +1,676 @@
+/* ==========================================
+   VARIABLES ET BASE
+   ========================================== */
+:root {
+  --izishop-primaire: #fbbe24;
+  --izishop-secondaire: #1E293B;
+  --izishop-accent: #60A5FA;
+  --izishop-fond: #dbe2f1;
+  --izishop-blanc: #FFFFFF;
+  --izishop-succes: #10B981;
+  --izishop-erreur: #EF4444;
+  --police-principale: 'Inter', system-ui, -apple-system, sans-serif;
+  --police-titre: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--izishop-fond);
+  color: var(--izishop-secondaire);
+  font-family: var(--police-principale);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .titre-izishop {
+  font-family: var(--police-titre);
+  font-weight: 500;
+  color: var(--izishop-secondaire);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* ==========================================
+   COULEURS UTILITAIRES
+   ========================================== */
+.fond-primaire { background-color: var(--izishop-primaire) !important; }
+.fond-secondaire { background-color: var(--izishop-secondaire) !important; }
+.fond-clair { background-color: var(--izishop-fond) !important; }
+.texte-primaire { color: var(--izishop-primaire) !important; }
+.texte-secondaire { color: var(--izishop-secondaire) !important; }
+.texte-accent { color: var(--izishop-accent) !important; }
+
+/* ==========================================
+   BOUTONS (border-radius max 8px)
+   ========================================== */
+.bouton-principal {
+  background-color: var(--izishop-primaire);
+  color: var(--izishop-secondaire);
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bouton-principal:hover {
+  transform: translateY(-2px);
+  color: var(--izishop-secondaire);
+}
+
+.bouton-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.bouton-secondaire {
+  background-color: #334155;
+  color: var(--izishop-blanc);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bouton-secondaire:hover {
+  background-color: #334155;
+  color: var(--izishop-primaire);
+}
+
+/* ==========================================
+   CARTES (border-radius max 8px, bordures solid simples)
+   ========================================== */
+.carte-izishop {
+  background: var(--izishop-blanc);
+  border: 1px solid rgba(30, 41, 59, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.carte-izishop:hover {
+  transform: scale(1.02);
+}
+
+.bordure-primaire { border: 2px solid var(--izishop-primaire); }
+.arrondi-izishop { border-radius: 8px; }
+.ombre-douce { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+
+/* ==========================================
+   NAVBAR
+   ========================================== */
+.barre-navigation {
+  background-color: var(--izishop-secondaire);
+  padding: 0.9rem 0;
+  min-height: 60px;
+}
+
+.logo-texte {
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+}
+
+.logo-image {
+  height: 37px;
+  width: auto;
+  margin-right: 8px;
+}
+
+.barre-navigation .nav-link {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.barre-navigation .nav-link:hover {
+  color: var(--izishop-primaire) !important;
+}
+
+/* ==========================================
+   HERO
+   ========================================== */
+.badge-promo {
+  color: var(--izishop-secondaire);
+  background-color: rgba(251, 190, 36, 0.18);
+  border: 1px solid rgba(251, 190, 36, 0.5);
+  padding: 4px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.hero-section {
+  min-height: 89vh;
+  background-color: var(--izishop-fond);
+  padding: 45px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titre-hero {
+  font-family: var(--police-titre);
+  font-size: clamp(1.6rem, 3.5vw, 3.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  color: var(--izishop-secondaire);
+  width: 100%;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.texte-description {
+  max-width: 830px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--izishop-secondaire);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* ==========================================
+   FEATURES
+   ========================================== */
+.features-section {
+  background-color: var(--izishop-blanc);
+}
+
+.titre-section {
+  font-family: var(--police-titre);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--izishop-secondaire);
+}
+
+.carte-feature {
+  background: #ffffff;
+  border: 1px solid rgba(30, 41, 59, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.05);
+}
+
+.carte-feature:hover {
+  transform: translateY(-8px);
+  border-color: var(--izishop-primaire);
+  box-shadow: 0 20px 40px -20px rgba(251, 191, 36, 0.2);
+}
+
+.icone-feature {
+  font-size: 2.5rem;
+  background: rgba(251, 191, 36, 0.1);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 8px;
+  color: var(--izishop-secondaire);
+}
+
+/* ==========================================
+   STEPS
+   ========================================== */
+.steps-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.barre-accent {
+  width: 80px;
+  height: 3px;
+  background-color: var(--izishop-primaire);
+  border-radius: 2px;
+}
+
+.carte-etape {
+  position: relative;
+  padding: 36px 20px;
+  z-index: 1;
+}
+
+.numero-bg {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-family: var(--police-titre);
+  font-size: 6rem;
+  font-weight: 900;
+  color: rgba(30, 41, 59, 0.171);
+  z-index: -1;
+  user-select: none;
+  line-height: 1;
+}
+
+.contenu-etape h3 {
+  color: var(--izishop-secondaire);
+  position: relative;
+}
+
+.contenu-etape p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #475569;
+}
+
+/* ==========================================
+   TESTIMONIALS (scroll infini)
+   ========================================== */
+.testimonials-section {
+  background-color: var(--izishop-blanc);
+}
+
+.scroll-infini-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 18px 0;
+}
+
+.scroll-track {
+  display: flex;
+  width: calc(330px * 20);
+  animation: scroll-horizontal 43s linear infinite;
+}
+
+@keyframes scroll-horizontal {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-330px * 10)); }
+}
+
+.scroll-track:hover {
+  animation-play-state: paused;
+}
+
+.carte-avis-scroll {
+  width: 320px;
+  flex-shrink: 0;
+  margin: 0 18px;
+  border: 1px solid rgba(30, 41, 59, 0.12);
+  border-radius: 8px;
+  background: var(--izishop-blanc);
+  transition: all 0.3s ease;
+}
+
+.carte-avis-scroll:hover {
+  border-color: var(--izishop-primaire);
+  box-shadow: 0 20px 40px -20px rgba(251, 191, 36, 0.2);
+}
+
+.message-avis {
+  font-style: italic;
+  color: #181c22;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.badge-activite {
+  font-size: 0.72rem;
+  color: var(--izishop-secondaire);
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgba(243, 182, 26, 0.278);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* ==========================================
+   PRICING
+   ========================================== */
+.pricing-section {
+  background-color: var(--izishop-fond);
+}
+
+.carte-pricing {
+  background: var(--izishop-blanc);
+  border-radius: 8px;
+  border: 1px solid rgba(30, 41, 59, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+  position: relative;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.carte-pricing.populaire {
+  border: 2px solid var(--izishop-primaire);
+}
+
+.liste-avantages li {
+  margin-bottom: 12px;
+  color: var(--izishop-secondaire);
+}
+
+.check {
+  color: var(--izishop-succes);
+  font-weight: 800;
+  margin-right: 12px;
+  font-size: 1.2rem;
+}
+
+.prix-container .montant {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--izishop-secondaire);
+  letter-spacing: -1px;
+}
+
+.prix-container .devise {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--izishop-secondaire);
+  margin-left: 8px;
+}
+
+.prix-container .periode {
+  color: var(--izishop-secondaire);
+  font-size: 1rem;
+}
+
+.illustration-pricing-wrapper {
+  position: relative;
+  padding: 15px;
+}
+
+.illustration-pricing {
+  width: 112%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* ==========================================
+   FAQ
+   ========================================== */
+.faq-section {
+  background-color: var(--izishop-fond) !important;
+}
+
+.faq-section .accordion-item {
+  border-bottom: 1px solid rgba(27, 34, 39, 0.06);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.faq-section .accordion-button:not(.collapsed) {
+  background-color: rgba(251, 190, 36, 0.15);
+  color: var(--izishop-secondaire);
+  box-shadow: none;
+}
+
+.faq-section .accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(251, 190, 36, 0.25);
+}
+
+.faq-section .accordion-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: var(--izishop-blanc);
+}
+
+/* ==========================================
+   FINAL CTA
+   ========================================== */
+.final-cta-section {
+  background-color: var(--izishop-blanc);
+}
+
+.cta-box {
+  background: linear-gradient(135deg, var(--izishop-secondaire) 0%, #334155 100%);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.titre-cta {
+  font-family: var(--police-titre);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.2;
+}
+
+.texte-cta {
+  color: #CBD5E1;
+  font-size: 1.2rem;
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+.footer-section {
+  background-color: var(--izishop-secondaire);
+  color: white;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--izishop-primaire);
+  padding-left: 5px;
+}
+
+.social-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-icon:hover {
+  background: var(--izishop-primaire);
+  color: var(--izishop-secondaire);
+}
+
+.border-white-10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.border-white-60 {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.border-white-60:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+.zack:hover {
+  background-color: var(--izishop-primaire);
+}
+
+/* ==========================================
+   RESPONSIVE - ADAPTABILITE DES APPAREILS
+   ========================================== */
+
+/* Tablettes et petits ecrans */
+@media (max-width: 991.98px) {
+  .logo-image {
+    height: 35px;
+  }
+
+  .logo-texte {
+    font-size: 1.4rem;
+  }
+
+  .carte-pricing.populaire {
+    transform: none;
+  }
+
+  .navbar-nav {
+    padding-top: 1rem;
+    text-align: left;
+  }
+
+  .navbar-nav .nav-item {
+    margin-bottom: 8px;
+  }
+
+  .navbar-nav .nav-link {
+    text-align: left;
+    padding-left: 0.5rem;
+  }
+
+  .numero-bg {
+    font-size: 4.5rem;
+  }
+
+  .carte-etape {
+    padding: 28px 16px;
+  }
+}
+
+/* Mobiles */
+@media (max-width: 767.98px) {
+  .hero-section {
+    min-height: auto;
+    padding: 60px 0;
+  }
+
+  .badge-promo {
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+  }
+
+  .titre-hero {
+    margin-bottom: 19px;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  .texte-description {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
+
+  .titre-section {
+    font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+  }
+
+  .bouton-principal,
+  .bouton-secondaire {
+    width: 100%;
+  }
+
+  .d-flex.flex-sm-row .bouton-principal,
+  .d-flex.flex-sm-row .bouton-secondaire {
+    width: 100%;
+  }
+
+  .prix-container .montant {
+    font-size: 2.4rem;
+  }
+
+  .prix-container .devise {
+    font-size: 1.1rem;
+  }
+
+  .titre-cta {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  .texte-cta {
+    font-size: 1rem;
+  }
+
+  .faq-section .accordion-body {
+    padding-left: 1rem !important;
+  }
+
+  .faq-section .accordion-button {
+    font-size: 0.95rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Tres petits ecrans */
+@media (max-width: 575.98px) {
+  .logo-image {
+    height: 32px;
+    margin-right: 6px;
+  }
+
+  .logo-texte {
+    font-size: 1.3rem;
+  }
+
+  .carte-avis-scroll {
+    width: 280px;
+    margin: 0 10px;
+  }
+
+  .scroll-track {
+    width: calc(300px * 20);
+  }
+
+  @keyframes scroll-horizontal {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-300px * 10)); }
+  }
+
+  .icone-feature {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+}
+
+/* Ecrans larges */
+@media (min-width: 1200px) {
+  .titre-hero {
+    font-size: 3.1rem;
+  }
+}
+
+/* Preference utilisateur : reduire les animations */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

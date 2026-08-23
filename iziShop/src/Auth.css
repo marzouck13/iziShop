@@ -1,0 +1,66 @@
+
+.auth-screen {
+  background-color: var(--izishop-fond); /* Fond gris très clair */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.auth-card-container {
+  width: 100%;
+  max-width: 720px;
+  max-height: 700px;
+}
+
+.auth-white-card {
+  background: white;
+  border-radius: 8px;
+  padding: 40px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.tracking-widest {
+  letter-spacing: 0.5rem;
+}
+
+/* On s'assure que l'input focus reste joli */
+.form-control:focus {
+  border-color: var(--izishop-primaire);
+  box-shadow: 0 0 0 3px rgba(240, 207, 21, 0.337);
+  outline: none;
+}
+
+.zouck{
+    background-color: var(--izishop-secondaire);
+    border-radius: 8px;
+    padding-bottom: 12;
+}
+
+.ZOUCK{
+    color:var( --izishop-blanc)
+}
+
+/* ==========================================
+   MODAL SUCCÈS INSCRIPTION
+========================================== */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Ajustements modal */
+.modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
