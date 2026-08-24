@@ -28,6 +28,24 @@ const Pricing = () => {
 
   return (
     <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '96px 0' }}>
+      <style>{`
+        .pricing-action-button {
+          transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, color .25s ease, transform .25s ease;
+        }
+
+        .pricing-action-button:hover,
+        .pricing-action-button:focus-visible {
+          background-color: var(--izishop-primaire) !important;
+          border-color: var(--izishop-primaire) !important;
+          box-shadow: 0 8px 20px rgba(251, 190, 36, .25);
+          color: var(--izishop-secondaire) !important;
+          transform: translateY(-3px);
+        }
+
+        .pricing-action-button:active {
+          transform: translateY(-1px);
+        }
+      `}</style>
       <div className="container px-4">
         <div style={{ marginBottom: '64px' }}>
           <div className="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-4">
@@ -67,7 +85,7 @@ const Pricing = () => {
                     ))}
                   </ul>
                 </div>
-                <button type="button" onClick={startTrial} className="w-100" style={{ backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,.1)', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
+                <button type="button" onClick={startTrial} className="pricing-action-button w-100" style={{ backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,.1)', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
               </article>
             </div>
           ))}
