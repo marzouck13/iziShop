@@ -71,7 +71,7 @@ const Pricing = () => {
                 <span style={{ alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '4px', color: '#cbd5e1', fontSize: '12px', padding: '4px 12px' }}>{plan.name}</span>
                 <div className="d-flex align-items-baseline gap-1" style={{ margin: '32px 0 8px' }}>
                   <span style={{ color: 'var(--izishop-blanc)', fontSize: '3rem', fontWeight: 500 }}>{billingPeriod === 'mensuel' ? plan.mensuel : plan.annuel} XOF</span>
-                  <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px' }}>/mois</span>
+                  <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px' }}>{billingPeriod === 'mensuel' ? '/mois' : '/an'}</span>
                 </div>
                 <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '14px', fontWeight: 300, marginBottom: '40px' }}>{plan.description}</p>
                 <div className="mt-auto">
