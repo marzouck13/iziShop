@@ -1,78 +1,76 @@
 // Fichier: frontend/src/components/Pricing.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import usePrixPublic from '../hooks/usePrixPublic';
+
+const plans = [
+  { 
+    name: 'Gratuit', 
+    mensuel: 0, 
+    annuel: 0, 
+    description: 'Idéal pour bien débuter.', 
+    action: 'Commencer gratuitement', 
+    features: ['1 boutique en ligne', 'Jusqu\'à 20 produits', 'Commandes via WhatsApp', 'Support par email'] 
+  },
+  { 
+    name: 'Pro', 
+    mensuel: 8000, 
+    annuel: 90000, 
+    description: 'Pour les vendeurs qui veulent passer à la vitesse supérieure.', 
+    action: 'Passer au PRO', 
+    features: ['Produits illimités', 'Statistiques avancées', 'Personnalisation SEO complète', 'Support prioritaire'] 
+  },
+];
 
 const Pricing = () => {
   const navigate = useNavigate();
-  const { prixData, chargement } = usePrixPublic();
-
-  const formatNombre = (nombre) => {
-    return new Intl.NumberFormat('fr-FR').format(nombre);
-  };
+  const [billingPeriod, setBillingPeriod] = useState('mensuel');
+  const startTrial = () => navigate('/auth', { state: { mode: 'register' } });
 
   return (
-    <section id="pricing" className="pricing-section py-5">
-      <div className="container py-lg-4">
-        <div className="text-center mb-4 mt-5">
-          <h2 className="titre-section fw-bold">Un tarif simple, sans surprise</h2>
-          <div className="barre-accent mx-auto mt-3"></div>
-          <p className="texte-description mx-auto mt-3" style={{ maxWidth: '500px' }}>
-            Pas de <strong>commissions</strong> sur vos ventes. Pas de{' '}
-            <strong>frais cachés</strong>. Juste le nécessaire pour faire décoller votre business.
-          </p>
+    <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '96px 0' }}>
+      <div className="container px-4">
+        <div style={{ marginBottom: '64px' }}>
+          <div className="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-4">
+            <div style={{ maxWidth: '640px' }}>
+              <h2 style={{ color: 'var(--izishop-blanc)', fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 300, lineHeight: 1.1, margin: '16px 0' }}>Des tarifs simples, sans surprise.</h2>
+              <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px', fontWeight: 300, margin: 0, maxWidth: '420px' }}>Commencez petit et développez-vous au fur et à mesure. Aucun frais <strong>caché</strong>.</p>
+            </div>
+                <div className="d-flex align-items-center gap-1 p-1" style={{ backgroundColor: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.05)', borderRadius: '8px' }}>
+              {['mensuel', 'annuel'].map((period) => (
+                <button key={period} type="button" onClick={() => setBillingPeriod(period)} style={{ backgroundColor: billingPeriod === period ? 'var(--izishop-primaire)' : 'transparent', border: 0, borderRadius: '4px', color: billingPeriod === period ? 'var(--izishop-secondaire)' : '#94a3b8', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 16px' }}>
+                  {period === 'mensuel' ? 'mensuel' : 'annuel'}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ background: 'linear-gradient(to right, #1e293b, #334155, transparent)', height: '1px', marginTop: '48px' }} />
         </div>
 
-        <div className="row align-items-center g-4 mb-5 justify-content-center">
-          <div className="col-lg-5">
-            <div className="carte-pricing populaire p-4 p-md-5 text-center">
-              <span className="badge-promo d-inline-block">Offre unique</span>
-              <h3 className="h4 fw-bold mb-0">Abonnement mensuel</h3>
-
-              <div className="prix-container my-2">
-                {chargement ? (
-                  <span className="devise">Chargement du prix...</span>
-                ) : prixData ? (
-                  <>
-                    <span className="montant">{formatNombre(prixData.prix)}</span>
-                    <span className="devise">{prixData.symboleDevise}</span>
-                    <span className="text-muted small d-block mt-1">
-                      Tarif adapté à votre pays : {prixData.nomPays}
-                    </span>
-                  </>
-                ) : (
-                  <span className="devise">Prix indisponible</span>
-                )}
-              </div>
-
-              <ul className="liste-avantages list-unstyled mb-4 text-start mx-auto" style={{ maxWidth: '320px' }}>
-                <li><span className="check">✓</span> 1 boutique personnalisée</li>
-                <li><span className="check">✓</span> Catalogue produits illimité</li>
-                <li><span className="check">✓</span> Gestion des stocks en temps réel</li>
-                <li><span className="check">✓</span> Notifications de commandes</li>
-                <li><span className="check">✓</span> Support prioritaire par WhatsApp</li>
-                <li><span className="check">✓</span> Zéro commission sur vos revenus</li>
-              </ul>
-
-              <button
-                className="bouton-principal w-100 py-3 mb-3"
-                onClick={() => navigate('/auth', { state: { mode: 'register' } })}
-              >
-                Commencer mes {prixData ? prixData.dureeEssaiJours : 35} jours gratuits
-              </button>
-              <p className="small text-muted fw-bold mb-0">Aucune carte bancaire n'est requise</p>
+        <div className="row g-4 mx-auto" style={{ maxWidth: '1024px' }}>
+          {plans.map((plan) => (
+            <div className="col-md-6" key={plan.name}>
+              <article className="h-100 d-flex flex-column" style={{ border: '1px solid rgba(255,255,255,.1)', padding: '40px' }}>
+                <span style={{ alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '4px', color: '#cbd5e1', fontSize: '12px', padding: '4px 12px' }}>{plan.name}</span>
+                <div className="d-flex align-items-baseline gap-1" style={{ margin: '32px 0 8px' }}>
+                  <span style={{ color: 'var(--izishop-blanc)', fontSize: '3rem', fontWeight: 500 }}>{billingPeriod === 'mensuel' ? plan.mensuel : plan.annuel} XOF</span>
+                  <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px' }}>/mois</span>
+                </div>
+                <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '14px', fontWeight: 300, marginBottom: '40px' }}>{plan.description}</p>
+                <div className="mt-auto">
+                  <h4 style={{ color: 'var(--izishop-blanc)', fontSize: '14px', marginBottom: '24px' }}>Ce qui est inclus</h4>
+                  <ul className="list-unstyled mb-0">
+                    {plan.features.map((feature) => (
+                      <li className="d-flex align-items-start gap-3" key={feature} style={{ color: 'rgba(255,255,255,.7)', fontSize: '14px', fontWeight: 300, marginBottom: '16px' }}>
+                        <svg aria-hidden="true" fill="none" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" /></svg>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button type="button" onClick={startTrial} className="w-100" style={{ backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,.1)', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
+              </article>
             </div>
-          </div>
-
-          <div className="col-lg-6 d-none d-lg-block text-center">
-            <div className="illustration-pricing-wrapper">
-              <img
-                src="/zouck/iziShop.png"
-                alt="Gestion simplifiée avec iziShop"
-                className="img-fluid illustration-pricing"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
