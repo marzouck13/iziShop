@@ -1,18 +1,36 @@
 // Fichier: frontend/src/components/Hero.jsx
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePrixPublic from '../hooks/usePrixPublic';
 
 const Hero = () => {
   const navigate = useNavigate();
   const { prixData } = usePrixPublic();
+  const freeStartButtonRef = useRef(null);
+  const [isFreeStartButtonVisible, setIsFreeStartButtonVisible] = useState(false);
+
+  useEffect(() => {
+    const button = freeStartButtonRef.current;
+
+    if (!button || !('IntersectionObserver' in window)) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsFreeStartButtonVisible(entry.isIntersecting);
+    });
+
+    observer.observe(button);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="hero-section d-flex align-items-center justify-content-center text-center">
+    <section className="hero-section d-flex align-Vendez simplement, vivez pleinement.items-center justify-content-center text-center">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-12 d-flex flex-column align-items-center">
-            <span className="badge-promo d-inline-block">
+            <span className="badge-promo d-inline-block" style={{ fontSize: "1.4rem"}}>
               Vendez simplement, vivez pleinement.
             </span>
             <h1 className="titre-hero fw-bold">
@@ -33,10 +51,11 @@ const Hero = () => {
             </p>
             <div className="d-flex flex-column flex-sm-row justify-content-center gap-2 w-100">
               <button
-                className="bouton-principal btn-lg px-5 py-3"
+                ref={freeStartButtonRef}
+                className={`bouton-principal bouton-hero btn-lg px-5 py-3 ${isFreeStartButtonVisible ? 'bouton-principal-vibrant' : ''}`}
                 onClick={() => navigate('/auth', { state: { mode: 'register' } })}
               >
-                Commencer gratuitement
+                <span>Commencer gratuitement</span>
               </button>
             </div>
           </div>

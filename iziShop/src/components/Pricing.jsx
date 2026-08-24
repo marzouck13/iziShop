@@ -27,7 +27,7 @@ const Pricing = () => {
   const startTrial = () => navigate('/auth', { state: { mode: 'register' } });
 
   return (
-    <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '96px 0' }}>
+    <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '32px 0' }}>
       <style>{`
         .pricing-action-button {
           transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, color .25s ease, transform .25s ease;
