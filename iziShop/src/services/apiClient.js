@@ -1,6 +1,6 @@
 /**
  * ==========================================
- * 🎯 API CLIENT - iziShop Frontend (JavaScript)
+ *  API CLIENT - iziShop Frontend (JavaScript)
  * ==========================================
  * 
  * Fichier : frontend/src/services/apiClient.js

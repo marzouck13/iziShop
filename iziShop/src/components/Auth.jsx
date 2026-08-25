@@ -109,7 +109,7 @@ const Auth = () => {
     try {
       const response = await connecterUtilisateur(loginData.email, loginData.motDePasse);
 
-      // ✅ CORRECTION : tokenAcces au lieu de token
+      //  CORRECTION : tokenAcces au lieu de token
       if (response.donnees?.utilisateur && response.donnees?.tokenAcces) {
         connecter(response.donnees.utilisateur, response.donnees.tokenAcces);
         setStatus({ type: 'success', msg: 'Connexion reussie ! Redirection...' });

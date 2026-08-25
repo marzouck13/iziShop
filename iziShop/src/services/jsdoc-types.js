@@ -1,6 +1,6 @@
 /**
  * ==========================================
- * 📘 JSDoc TYPEDEFS — API iziShop v7.1
+ * JSDoc TYPEDEFS — API iziShop v7.1
  * ==========================================
  * 
  * Ce fichier fournit l'autocomplétion pour les IDE
