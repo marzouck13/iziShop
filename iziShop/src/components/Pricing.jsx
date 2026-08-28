@@ -72,8 +72,8 @@ const Pricing = () => {
             <div className="row g-4">
               {plans.map((plan) => (
                 <div className="col-md-6" key={plan.name}>
-                  <article className="h-100 d-flex flex-column" style={{ border: '1px solid rgba(255,255,255,.1)', padding: '40px' }}>
-                    <span style={{ alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '4px', color: '#cbd5e1', fontSize: '12px', padding: '4px 12px' }}>{plan.name}</span>
+                  <article className="h-100 d-flex flex-column" style={{ border: '2px solid #fbbe24',borderRadius: '8px', padding: '40px' }}>
+                    <span style={{ alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.05)', border: '2px solid #fbbe24', borderRadius: '4px', color: '#cbd5e1', fontSize: '12px', padding: '4px 12px' }}>{plan.name}</span>
                     <div className="d-flex align-items-baseline gap-1" style={{ margin: '32px 0 8px' }}>
                       <span style={{ color: 'var(--izishop-blanc)', fontSize: '3rem', fontWeight: 500 }}>{billingPeriod === 'mensuel' ? plan.mensuel : plan.annuel} XOF</span>
                       <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px' }}>{billingPeriod === 'mensuel' ? '/mois' : '/an'}</span>
@@ -90,7 +90,7 @@ const Pricing = () => {
                         ))}
                       </ul>
                     </div>
-                    <button type="button" onClick={startTrial} className="pricing-action-button w-100" style={{ backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,.1)', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
+                    <button type="button" onClick={startTrial} className="pricing-action-button w-100" style={{ backgroundColor: 'transparent', border: '2px solid #fbbe24', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
                   </article>
                 </div>
               ))}
@@ -99,16 +99,16 @@ const Pricing = () => {
 
           {/* COLONNE DROITE : L'image (comme dans l'ancienne version) */}
           <div className="col-lg-5 d-none d-lg-block text-center">
-            <div className="illustration-pricing-wrapper" style={{ position: 'relative', padding: '15px' }}>
+            <div className="illustration-pricing-wrapper" style={{ position: 'relative', padding: '1px' }}>
               <img
                 src="/zouck/iziShop.png"
                 alt="Gestion simplifiée avec iziShop"
                 className="img-fluid"
                 style={{ 
-                  width: '195%', 
-                  maxWidth: '580px', 
-                  paddingTop:'23px',
+                  width: '295%', 
+                  maxWidth: '680px', 
                   height: 'auto', 
+                  transform: 'translateX(-53px)',
                   borderRadius: '12px',
                   filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
                 }}

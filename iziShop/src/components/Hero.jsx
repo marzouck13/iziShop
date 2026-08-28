@@ -26,8 +26,19 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="hero-section d-flex align-Vendez simplement, vivez pleinement.items-center justify-content-center text-center">
-      <div className="container">
+    <section 
+      className="hero-section d-flex align-items-center justify-content-center text-center"
+      style={{
+        position: 'relative',
+        minHeight: '89vh',
+        padding: '45px 0',
+        backgroundImage: `linear-gradient(135deg, rgba(236, 232, 232, 0.75) 0%, rgba(180, 193, 221, 0.71) 100%), url(/HeroBaniere.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div className="row justify-content-center">
           <div className="col-lg-12 d-flex flex-column align-items-center">
             <span className="badge-promo d-inline-block">

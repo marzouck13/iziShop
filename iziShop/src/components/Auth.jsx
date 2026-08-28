@@ -208,10 +208,10 @@ const Auth = () => {
               <p className="text-center text-muted small mb-2">
                 {mode === 'login'
                   ? "Heureux de vous revoir ! Connectez-vous a votre espace."
-                  : "Creez votre boutique et beneficiez de 35 jours d'essai gratuit."}
+                  : "Creez votre boutique et beneficiez de nos fonctionnalités"}
               </p>
               {status.msg && (
-                <div className={`alert alert-${status.type} py-2 small text-center`} role="alert">
+                <div className={`alert alert-${status.type} py-1 small text-center`} role="alert">
                   {status.msg}
                 </div>
               )}
@@ -259,7 +259,7 @@ const Auth = () => {
                       required
                     />
                   </div>
-                  <div className="row mb-1">
+                  <div className="row">
                     <div className="col-6">
                       <label className="form-label small fw-bold">Pays</label>
                       <select
@@ -297,14 +297,14 @@ const Auth = () => {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-bold">Mot de passe</label>
+                    <label className="form-label small fw-bold">Mot de passe (Minimum 6 caracteres)</label>
                     <input
                       type="password"
                       name="motDePasse"
                       className="form-control form-control-lg bg-light border-0"
                       value={formData.motDePasse}
                       onChange={handleChange}
-                      placeholder="Minimum 6 caracteres"
+                      placeholder=""
                       minLength={6}
                       required
                     />

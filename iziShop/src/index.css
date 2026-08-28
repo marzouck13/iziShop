@@ -61,6 +61,7 @@ html {
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+  
 }
 
 .bouton-principal:hover {
@@ -274,7 +275,7 @@ html {
   margin-left: auto;
   margin-right: auto;
   color: var(--izishop-secondaire);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   margin-bottom: 32px;
 }
@@ -671,7 +672,7 @@ html {
   }
 
   .texte-description {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     margin-bottom: 24px;
   }
 
