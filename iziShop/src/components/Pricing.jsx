@@ -27,7 +27,7 @@ const Pricing = () => {
   const startTrial = () => navigate('/auth', { state: { mode: 'register' } });
 
   return (
-    <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '32px 0' }}>
+    <section id="pricing" style={{ backgroundColor: 'var(--izishop-secondaire)', borderBottom: '1px solid rgba(255,255,255,.1)', color: 'var(--izishop-blanc)', padding: '32px 0', overflow: 'hidden' }}>
       <style>{`
         .pricing-action-button {
           transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, color .25s ease, transform .25s ease;
@@ -66,19 +66,27 @@ const Pricing = () => {
         </div>
 
         {/* LAYOUT : PLANS + IMAGE */}
-        <div className="row align-items-center g-5">
+        <div className="row align-items-end g-5">
           {/* COLONNE GAUCHE : Les 2 plans */}
           <div className="col-lg-7">
-            <div className="row g-4">
+            <div className="row g-4 align-items-stretch">
               {plans.map((plan) => (
                 <div className="col-md-6" key={plan.name}>
-                  <article className="h-100 d-flex flex-column" style={{ border: '2px solid #fbbe24',borderRadius: '8px', padding: '40px' }}>
+                  <article className="h-100 d-flex flex-column" style={{ border: '2px solid #fbbe24', borderRadius: '8px', padding: '40px' }}>
                     <span style={{ alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,.05)', border: '2px solid #fbbe24', borderRadius: '4px', color: '#cbd5e1', fontSize: '12px', padding: '4px 12px' }}>{plan.name}</span>
-                    <div className="d-flex align-items-baseline gap-1" style={{ margin: '32px 0 8px' }}>
-                      <span style={{ color: 'var(--izishop-blanc)', fontSize: '3rem', fontWeight: 500 }}>{billingPeriod === 'mensuel' ? plan.mensuel : plan.annuel} XOF</span>
-                      <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px' }}>{billingPeriod === 'mensuel' ? '/mois' : '/an'}</span>
+                    
+                    {/* Bloc Prix à hauteur fixe pour éviter tout saut/changement de taille */}
+                    <div className="d-flex align-items-baseline gap-1" style={{ margin: '32px 0 8px', minHeight: '60px' }}>
+                      <span style={{ color: 'var(--izishop-blanc)', fontSize: 'clamp(2.2rem, 3.5vw, 3rem)', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                        {billingPeriod === 'mensuel' ? plan.mensuel : plan.annuel} XOF
+                      </span>
+                      <span style={{ color: 'rgba(255,255,255,.7)', fontSize: '18px', whiteSpace: 'nowrap' }}>
+                        {billingPeriod === 'mensuel' ? '/mois' : '/an'}
+                      </span>
                     </div>
-                    <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '14px', fontWeight: 300, marginBottom: '40px' }}>{plan.description}</p>
+
+                    <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '14px', fontWeight: 300, marginBottom: '40px', minHeight: '42px' }}>{plan.description}</p>
+                    
                     <div className="mt-auto">
                       <h4 style={{ color: 'var(--izishop-blanc)', fontSize: '14px', marginBottom: '24px' }}>Ce qui est inclus</h4>
                       <ul className="list-unstyled mb-0">
@@ -90,6 +98,7 @@ const Pricing = () => {
                         ))}
                       </ul>
                     </div>
+                    
                     <button type="button" onClick={startTrial} className="pricing-action-button w-100" style={{ backgroundColor: 'transparent', border: '2px solid #fbbe24', borderRadius: '8px', color: 'var(--izishop-blanc)', cursor: 'pointer', fontSize: '14px', marginBottom: '0px', marginTop: '24px', padding: '16px' }}>{plan.action}</button>
                   </article>
                 </div>
@@ -97,20 +106,21 @@ const Pricing = () => {
             </div>
           </div>
 
-          {/* COLONNE DROITE : L'image (comme dans l'ancienne version) */}
-          <div className="col-lg-5 d-none d-lg-block text-center">
-            <div className="illustration-pricing-wrapper" style={{ position: 'relative', padding: '1px' }}>
+          {/* COLONNE DROITE : L'image (conservée à l'identique avec adaptation responsive) */}
+          <div className="col-lg-5 d-none d-lg-flex align-items-end justify-content-center text-center" style={{ minHeight: '100%' }}>
+            <div className="illustration-pricing-wrapper" style={{ position: 'relative', padding: '1px', width: '100%', display: 'flex', justifyContent: 'center' }}>
               <img
                 src="/zouck/iziShop.png"
                 alt="Gestion simplifiée avec iziShop"
                 className="img-fluid"
                 style={{ 
                   width: '295%', 
-                  maxWidth: '680px', 
+                  maxWidth: '100%', 
                   height: 'auto', 
                   transform: 'translateX(-53px)',
                   borderRadius: '12px',
                   filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                  display: 'block'
                 }}
               />
             </div>
