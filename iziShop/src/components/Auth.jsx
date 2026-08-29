@@ -25,6 +25,9 @@ const Auth = () => {
   const [envoiEnCours, setEnvoiEnCours] = useState(false);
   const [emailRenvoye, setEmailRenvoye] = useState(false);
 
+  // État pour afficher ou masquer le mot de passe
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     nomComplet: '',
     email: '',
@@ -109,13 +112,9 @@ const Auth = () => {
     try {
       const response = await connecterUtilisateur(loginData.email, loginData.motDePasse);
 
-      //  CORRECTION : tokenAcces au lieu de token
       if (response.donnees?.utilisateur && response.donnees?.tokenAcces) {
         connecter(response.donnees.utilisateur, response.donnees.tokenAcces);
         setStatus({ type: 'success', msg: 'Connexion reussie ! Redirection...' });
-
-        // La redirection est geree par le useEffect ci-dessus
-        // qui detecte le changement de estConnecte + utilisateur
       }
     } catch (err) {
       if (err.status === 403 && err.data?.emailNonVerifie) {
@@ -298,16 +297,27 @@ const Auth = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label small fw-bold">Mot de passe (Minimum 6 caracteres)</label>
-                    <input
-                      type="password"
-                      name="motDePasse"
-                      className="form-control form-control-lg bg-light border-1"
-                      value={formData.motDePasse}
-                      onChange={handleChange}
-                      placeholder=""
-                      minLength={6}
-                      required
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="motDePasse"
+                        className="form-control form-control-lg bg-light border-1 pe-5"
+                        value={formData.motDePasse}
+                        onChange={handleChange}
+                        placeholder=""
+                        minLength={6}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-2 text-muted"
+                        onClick={() => setShowPassword(!showPassword)}
+                        tabIndex="-1"
+                        style={{ zIndex: 5 }}
+                      >
+                        <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} fs-5`}></i>
+                      </button>
+                    </div>
                   </div>
                   <button className="btn Zouck btn-warning w-100 py-3 fw-bold shadow-sm" disabled={loading}>
                     {loading ? 'Creation...' : 'Creer ma boutique gratuitement'}
@@ -341,15 +351,26 @@ const Auth = () => {
                   </div>
                   <div className="mb-4">
                     <label className="form-label small fw-bold">Mot de passe</label>
-                    <input
-                      type="password"
-                      name="motDePasse"
-                      className="form-control form-control-lg bg-light border-1"
-                      value={loginData.motDePasse}
-                      onChange={handleChange}
-                      placeholder=""
-                      required
-                    />
+                    <div className="position-relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="motDePasse"
+                        className="form-control form-control-lg bg-light border-1 pe-5"
+                        value={loginData.motDePasse}
+                        onChange={handleChange}
+                        placeholder=""
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-2 text-muted"
+                        onClick={() => setShowPassword(!showPassword)}
+                        tabIndex="-1"
+                        style={{ zIndex: 5 }}
+                      >
+                        <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} fs-5`}></i>
+                      </button>
+                    </div>
                   </div>
                   <button className="btn Zouck btn-warning w-100 py-3 fw-bold shadow-sm" disabled={loading}>
                     {loading ? 'Connexion...' : 'Se connecter'}
