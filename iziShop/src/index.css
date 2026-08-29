@@ -5,12 +5,12 @@
   --izishop-primaire: #fbbe24;
   --izishop-secondaire: #1E293B;
   --izishop-accent: #60A5FA;
-  --izishop-fond: #dbe2f1;
+  --izishop-fond: #d3dcf1;
   --izishop-blanc: #FFFFFF;
   --izishop-succes: #10B981;
   --izishop-erreur: #EF4444;
-  --police-principale: 'Inter', system-ui, -apple-system, sans-serif;
-  --police-titre: 'Montserrat', sans-serif;
+  --police-principale: 'geist';
+  --police-titre: 'Neue Montreal';
 }
 
 * {
@@ -34,7 +34,7 @@ h1, h2, h3, h4, .titre-izishop {
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 55px;
 }
 
 /* ==========================================
@@ -55,7 +55,7 @@ html {
   color: var(--izishop-secondaire);
   font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 10px 16px;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -65,7 +65,7 @@ html {
 }
 
 .bouton-principal:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   color: var(--izishop-secondaire);
 }
 
@@ -174,7 +174,7 @@ html {
   color: var(--izishop-blanc);
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 10px 20px;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -424,7 +424,7 @@ html {
   text-transform: uppercase;
   background-color: rgba(243, 182, 26, 0.278);
   padding: 4px 10px;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 /* ==========================================

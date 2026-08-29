@@ -168,7 +168,7 @@ const Auth = () => {
     <>
       <div className="auth-screen mt-10 container-fluid vh-100 d-flex align-items-center justify-content-center">
         <div
-          className="row w-100 shadow-lg rounded-4 overflow-hidden bg-white"
+          className="row w-100 shadow-lg rounded-2 overflow-hidden bg-white"
           style={{ maxWidth: '950px', minHeight: '300px' }}
         >
           <div className="col-md-6 d-none d-md-block p-0 position-relative">
@@ -180,7 +180,7 @@ const Auth = () => {
             />
             <div
               className="position-absolute top-0 start-0 w-100 h-100"
-              style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.08), rgba(30, 41, 59, 0.64))' }}
+              style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.12), rgba(30, 41, 59, 0.74))' }}
             ></div>
             <div className="position-absolute bottom-0 start-0 p-4 text-white">
               <h2 className="fw-bold text-white">Propulsez votre business</h2>
@@ -240,7 +240,7 @@ const Auth = () => {
                     <input
                       type="text"
                       name="nomComplet"
-                      className="form-control form-control-lg bg-light border-0"
+                      className="form-control form-control-lg bg-light border-1"
                       value={formData.nomComplet}
                       onChange={handleChange}
                       placeholder=""
@@ -252,7 +252,7 @@ const Auth = () => {
                     <input
                       type="email"
                       name="email"
-                      className="form-control form-control-lg bg-light border-0"
+                      className="form-control form-control-lg bg-light border-1"
                       value={formData.email}
                       onChange={handleChange}
                       placeholder=""
@@ -264,7 +264,7 @@ const Auth = () => {
                       <label className="form-label small fw-bold">Pays</label>
                       <select
                         name="pays"
-                        className="form-control form-control-lg bg-light border-0"
+                        className="form-control form-control-lg bg-light border-1"
                         value={formData.pays}
                         onChange={handleChange}
                         required
@@ -289,7 +289,7 @@ const Auth = () => {
                       <input
                         type="tel"
                         name="numeroTelephone"
-                        className="form-control form-control-lg bg-light border-0"
+                        className="form-control form-control-lg bg-light border-1"
                         value={formData.numeroTelephone}
                         onChange={handleChange}
                         placeholder=""
@@ -301,7 +301,7 @@ const Auth = () => {
                     <input
                       type="password"
                       name="motDePasse"
-                      className="form-control form-control-lg bg-light border-0"
+                      className="form-control form-control-lg bg-light border-1"
                       value={formData.motDePasse}
                       onChange={handleChange}
                       placeholder=""
@@ -332,7 +332,7 @@ const Auth = () => {
                     <input
                       type="email"
                       name="email"
-                      className="form-control form-control-lg bg-light border-0"
+                      className="form-control form-control-lg bg-light border-1"
                       value={loginData.email}
                       onChange={handleChange}
                       placeholder=""
@@ -344,7 +344,7 @@ const Auth = () => {
                     <input
                       type="password"
                       name="motDePasse"
-                      className="form-control form-control-lg bg-light border-0"
+                      className="form-control form-control-lg bg-light border-1"
                       value={loginData.motDePasse}
                       onChange={handleChange}
                       placeholder=""
@@ -356,7 +356,8 @@ const Auth = () => {
                   </button>
                   <div className="text-center mt-4">
                     <p className="small text-muted">
-                      Vous etes nouveau ?<br />
+                      Vous etes nouveau ?
+                      <br />
                       <button
                         type="button"
                         className="btn btn-link p-0 small fw-bold text-warning text-decoration-none"
@@ -392,7 +393,7 @@ const Auth = () => {
                     style={{
                       width: '90px',
                       height: '90px',
-                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                      backgroundColor: 'rgba(16, 185, 129, 0.14)',
                       animation: 'pulse 1.5s ease-in-out infinite'
                     }}
                   >

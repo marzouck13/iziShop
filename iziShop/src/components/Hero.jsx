@@ -32,7 +32,7 @@ const Hero = () => {
         position: 'relative',
         minHeight: '89vh',
         padding: '45px 0',
-        backgroundImage: `linear-gradient(135deg, rgba(236, 232, 232, 0.75) 0%, rgba(180, 193, 221, 0.71) 100%), url(/HeroBaniere.jpg)`,
+        backgroundImage: `linear-gradient(135deg, rgba(236, 232, 232, 0.49) 0%, rgba(180, 193, 221, 0.71) 100%), url(/HeroBaniere.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'

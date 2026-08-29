@@ -114,12 +114,12 @@ const Pricing = () => {
                 alt="Gestion simplifiée avec iziShop"
                 className="img-fluid"
                 style={{ 
-                  width: '295%', 
-                  maxWidth: '100%', 
+                  width: '395%', 
+                  maxWidth: '128%', 
                   height: 'auto', 
-                  transform: 'translateX(-53px)',
+                  transform: 'translateX(34px)',
                   borderRadius: '12px',
-                  filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.3))',
+                  filter: 'drop-shadow(0 20px 40px rgba(6, 6, 6, 0.28))',
                   display: 'block'
                 }}
               />
