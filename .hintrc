@@ -3,16 +3,7 @@
     "development"
   ],
   "hints": {
-    "compat-api/css": [
-      "default",
-      {
-        "ignore": [
-          "user-select",
-          "min-height: auto",
-          "backdrop-filter"
-        ]
-      }
-    ],
+    "compat-api/css": "off",
     "detect-css-reflows/composite": "off",
     "detect-css-reflows/paint": "off"
   }

@@ -1,8 +1,8 @@
-/* eslint-disable no-empty */
 /* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-empty */
 /**
  * ==========================================
- * 🪝 REACT HOOKS - API iziShop (JavaScript)
+ *  REACT HOOKS - API iziShop v8.0 (JavaScript)
  * ==========================================
  * 
  * Fichier : frontend/src/hooks/useApi.js
@@ -88,7 +88,7 @@ export function useApi(endpoint, options = {}) {
 }
 
 // ========================================
-// 🔐 AUTH
+//  AUTH
 // ========================================
 
 /**
@@ -157,7 +157,7 @@ export function useAuth() {
 }
 
 // ========================================
-// 🏪 BOUTIQUE
+//  BOUTIQUE
 // ========================================
 
 /** Récupérer la boutique du vendeur connecté */
@@ -192,7 +192,7 @@ export function useBasculerVisibilite() {
 }
 
 // ========================================
-// 📦 PRODUITS
+//  PRODUITS
 // ========================================
 
 /** Lister mes produits */
@@ -251,7 +251,7 @@ export function useSupprimerProduit(idProduit) {
 }
 
 // ========================================
-// 🛒 COMMANDES
+//  COMMANDES
 // ========================================
 
 /**
@@ -284,7 +284,43 @@ export function useDetailsCommande(idCommande) {
 }
 
 // ========================================
-// 💳 PAIEMENTS
+//  REÇUS PDF
+// ========================================
+
+/**
+ * Générer reçu PDF
+ * @param {string} idCommande
+ */
+export function useGenererRecu(idCommande) {
+  return useApi(`/api/recu/${idCommande}/generer`, {
+    method: 'POST',
+    autoFetch: false
+  });
+}
+
+/**
+ * Obtenir URLs reçus
+ * @param {string} idCommande
+ */
+export function useObtenirRecus(idCommande) {
+  return useApi(`/api/recu/${idCommande}/recus`, {
+    deps: [idCommande]
+  });
+}
+
+/**
+ * Envoyer reçu par email
+ * @param {string} idCommande
+ */
+export function useEnvoyerRecuEmail(idCommande) {
+  return useApi(`/api/recu/${idCommande}/email`, {
+    method: 'POST',
+    autoFetch: false
+  });
+}
+
+// ========================================
+//  PAIEMENTS
 // ========================================
 
 /** Providers de paiement disponibles */
@@ -328,7 +364,7 @@ export function useInitierPaiement() {
 }
 
 // ========================================
-// 🔔 NOTIFICATIONS
+//  NOTIFICATIONS
 // ========================================
 
 /**
@@ -357,7 +393,7 @@ export function usePreferencesNotifications() {
 }
 
 // ========================================
-// 🎁 PARRAINAGE
+//  PARRAINAGE
 // ========================================
 
 /**
@@ -380,7 +416,7 @@ export function useUtiliserBonus() {
 }
 
 // ========================================
-// 🔍 RECHERCHE
+//  RECHERCHE
 // ========================================
 
 /**
@@ -431,7 +467,7 @@ export function useTendances() {
 }
 
 // ========================================
-// 📤 MÉDIAS
+//  MÉDIAS
 // ========================================
 
 /**
@@ -462,7 +498,7 @@ export function useUploadImages() {
 }
 
 // ========================================
-// 🎯 SEO
+//  SEO
 // ========================================
 
 /**
@@ -560,6 +596,15 @@ export function useSeoInjection(sousDomaine, idProduit = null) {
   }, [data]);
 
   return { seo: data?.donnees, loading };
+}
+
+// ========================================
+//  PRIX PUBLIC
+// ========================================
+
+/** Prix d'abonnement selon pays (détection IP) */
+export function usePrixPublic() {
+  return useApi('/api/prix-public');
 }
 
 export default useApi;

@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { DataProvider } from './context/DataContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
@@ -13,12 +14,15 @@ import Faq from './components/Faq';
 import FinalCTA from './components/FinalCTA';
 import Auth from './components/Auth';
 import ProtectedRoute from './components/ProtectedRoute';
-import DashboardVendeur from './pages/DashboardVendeur';
+import Dashboard from './pages/dashboard/Dashboard';
+import Commandes from './pages/dashboard/Commandes';
+import Produits from './pages/dashboard/Produits';
+import FormulaireProduit from './pages/dashboard/FormulaireProduit';
+import Abonnement from './pages/dashboard/Abonnement';
+import Parrainage from './pages/dashboard/Parrainage';
+import Notifications from './pages/dashboard/Notifications';
 import DashboardAdmin from './pages/DashboardAdmin';
-import AjouterProduit from './pages/AjouterProduit';
-import Produits from './pages/Produits';
 import ParametresBoutique from './pages/ParametresBoutique';
-import Abonnement from './pages/Abonnement';
 import BoutiquePublique from './pages/BoutiquePublique';
 import VerifierEmail from './pages/VerifierEmail';
 
@@ -39,7 +43,9 @@ const AppContent = () => {
   const hideLayout =
     location.pathname === '/auth' ||
     location.pathname.startsWith('/boutique/') ||
-    location.pathname === '/verifier-email';
+    location.pathname === '/verifier-email' ||
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/admin');
 
   return (
     <div className="app-container">
@@ -49,12 +55,37 @@ const AppContent = () => {
         <Route path="/auth" element={<Auth />} />
         <Route path="/verifier-email" element={<VerifierEmail />} />
         <Route path="/boutique/:sousDomaine" element={<BoutiquePublique />} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardVendeur /></ProtectedRoute>} />
-        <Route path="/dashboard/ajouter-produit" element={<ProtectedRoute><AjouterProduit /></ProtectedRoute>} />
-        <Route path="/dashboard/produits" element={<ProtectedRoute><Produits /></ProtectedRoute>} />
-        <Route path="/dashboard/parametres" element={<ProtectedRoute><ParametresBoutique /></ProtectedRoute>} />
-        <Route path="/dashboard/abonnement" element={<ProtectedRoute><Abonnement /></ProtectedRoute>} />
-        <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly={true}><DashboardAdmin /></ProtectedRoute>} />
+
+        
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <DataProvider>
+                <Routes>
+                  <Route index element={<Dashboard />} />
+                  <Route path="produits" element={<Produits />} />
+                  <Route path="produits/ajouter" element={<FormulaireProduit />} />
+                  <Route path="produits/:idProduit" element={<FormulaireProduit />} />
+                  <Route path="commandes" element={<Commandes />} />
+                  <Route path="abonnement" element={<Abonnement />} />
+                  <Route path="parrainage" element={<Parrainage />} />
+                  <Route path="notifications" element={<Notifications />} />
+                  <Route path="parametres" element={<ParametresBoutique />} />
+                </Routes>
+              </DataProvider>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <DashboardAdmin />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       {!hideLayout && <Footer />}
     </div>

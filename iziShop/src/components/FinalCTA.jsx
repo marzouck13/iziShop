@@ -31,11 +31,11 @@ const FinalCTA = () => {
         <div className="cta-box p-4 text-center shadow-lg"      
         style={{
     
-        backgroundImage: `linear-gradient(135deg, #000000af 0%, rgba(26, 31, 42, 0.6) 100%), url(/finalcta.jpg)`,
+        backgroundImage: `linear-gradient(135deg, #000000ad 0%, rgba(26, 31, 42, 0.54) 100%), url(/finalcta.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
-      }}>
+        }}>
           <div className="row justify-content-center">
             <div className="col-lg-8">
               <h2 className="titre-cta mb-4 text-white">

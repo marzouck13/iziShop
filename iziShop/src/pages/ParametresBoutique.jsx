@@ -30,7 +30,11 @@ const ParametresBoutique = () => {
         if (isMounted && resBoutique?.donnees) {
           const b = resBoutique.donnees;
           setBoutique(b);
-          setFormData({ nomBoutique: b.nomBoutique || '', description: b.description || '', lienWhatsApp: b.lienWhatsApp || '' });
+          setFormData({ 
+            nomBoutique: b.nomBoutique || '', 
+            description: b.description || '', 
+            lienWhatsApp: b.lienWhatsApp || '' 
+          });
           setLogoOriginalUrl(b.logoUrl || '');
           setLogoPreview(b.logoUrl || '');
         }
@@ -70,7 +74,6 @@ const ParametresBoutique = () => {
       }
       setLogoFile(file);
       setLogoPreview(URL.createObjectURL(file));
-      // Si on choisit un nouveau fichier après avoir cliqué sur supprimer, on annule l'état "supprimé"
       if (logoOriginalUrl === 'DELETED') {
         setLogoOriginalUrl('');
       }
@@ -99,32 +102,27 @@ const ParametresBoutique = () => {
     e.preventDefault();
     setSauvegardeEnCours(true);
     setMessage({ type: '', text: '' });
+
     try {
       let finalLogoUrl = null;
-      
-      // Cas 1 : L'utilisateur a explicitement demandé la suppression du logo
+
       if (logoOriginalUrl === 'DELETED') {
         if (boutique?.logoUrl) {
-          // Suppression définitive de l'ancien logo du stockage
           await supprimerImage(boutique.logoUrl).catch(err => console.error("Erreur suppression ancien logo:", err));
         }
         finalLogoUrl = null;
       } 
-      // Cas 2 : L'utilisateur a sélectionné un nouveau fichier logo
       else if (logoFile) {
-        // 1. Suppression DÉFINITIVE de l'ancien logo du stockage AVANT d'uploader le nouveau
         if (boutique?.logoUrl) {
           await supprimerImage(boutique.logoUrl).catch(err => console.error("Erreur suppression ancien logo:", err));
         }
-        // 2. Upload du nouveau logo
         const uploadRes = await uploaderImages([logoFile]);
         finalLogoUrl = uploadRes.donnees.urls[0];
       }
-      // Cas 3 : Aucun changement sur le logo, on garde l'URL existante
       else {
         finalLogoUrl = boutique?.logoUrl || null;
       }
-      
+
       const donneesMiseAJour = { ...formData, logoUrl: finalLogoUrl };
       await mettreAJourBoutique(donneesMiseAJour);
       
@@ -239,7 +237,7 @@ const ParametresBoutique = () => {
               <h1 className="h3 fw-bold mb-1" style={{ color: 'var(--izishop-secondaire)' }}>
                 <i className="bi bi-gear me-2" style={{ color: 'var(--izishop-primaire)' }}></i> Paramètres de la Boutique
               </h1>
-              <p className="text-muted small mb-0">Personnalisez les informations de votre vitrine.</p>
+              <p className="text-muted small mb-0">Personnalisez les informations de votre boutique.</p>
             </div>
             <button className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1" onClick={() => navigate('/dashboard')}>
               <i className="bi bi-arrow-left"></i> Retour au tableau de bord
@@ -256,7 +254,7 @@ const ParametresBoutique = () => {
                   <div className="mb-3">
                     <label className="form-label fw-bold small">Nom de la boutique <span className="text-danger">*</span></label>
                     <input type="text" name="nomBoutique" className="form-control form-control-lg bg-light border-0 rounded-3" value={formData.nomBoutique} onChange={handleInputChange} placeholder="Ex: Boutique de Jean Kouassi" required />
-                    <small className="text-muted">Ce nom apparaîtra sur votre vitrine publique.</small>
+                    <small className="text-muted">Ce nom apparaîtra sur votre boutique publique.</small>
                   </div>
                   <div className="mb-3">
                     <label className="form-label fw-bold small">Description</label>
@@ -274,6 +272,7 @@ const ParametresBoutique = () => {
                     <small className="text-muted">Numéro sur lequel vos clients pourront vous contacter pour commander.</small>
                   </div>
                 </div>
+
                 <div className="d-flex justify-content-end gap-3">
                   <button type="button" className="btn btn-light px-4 py-2 fw-semibold rounded-3" style={{ color: 'var(--izishop-secondaire)' }} onClick={() => navigate('/dashboard')} disabled={sauvegardeEnCours}>
                     Annuler
@@ -304,14 +303,12 @@ const ParametresBoutique = () => {
                   </div>
                 </div>
                 
-                {/* ✅ DEUX BOUTONS DISTINCTS PLACÉS CÔTE À CÔTE */}
                 <div className="d-flex gap-2 mb-3">
-                  <label className="btn zack btn-sm rounded-3 flex-grow-1 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', borderWidth: '1.5px',borderColor:'#1E293B' }}>
+                  <label className="btn zack btn-sm rounded-3 flex-grow-1 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', borderWidth: '1.5px', borderColor:'#1E293B' }}>
                     <i className={`bi ${logoPreview ? 'bi-pencil-square' : 'bi-cloud-upload'} me-2`}></i>
                     {logoPreview ? 'Changer le logo' : 'Ajouter un logo'}
                     <input type="file" accept="image/*" className="d-none" onChange={handleLogoChange} />
                   </label>
-                  
                   {logoPreview && (
                     <button 
                       type="button"
@@ -323,7 +320,6 @@ const ParametresBoutique = () => {
                     </button>
                   )}
                 </div>
-                
                 <small className="text-muted d-block text-center">
                   Formats : JPG, PNG, WebP. Max 5 Mo. Le logo sera compressé automatiquement.
                 </small>
@@ -345,7 +341,7 @@ const ParametresBoutique = () => {
                 <div className="p-2 rounded-3 bg-light border d-flex align-items-start gap-2" style={{ borderStyle: 'dashed', borderColor: 'rgba(251, 190, 36, 0.3)' }}>
                   <i className="bi bi-lightbulb-fill text-warning flex-shrink-0 mt-1" style={{ fontSize: '0.85rem' }}></i>
                   <p className="text-muted mb-0" style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>
-                    Partagez ce lien avec vos clients pour qu'ils accèdent directement à votre vitrine.
+                    Partagez ce lien avec vos clients pour qu'ils accèdent directement à votre Boutique.
                   </p>
                 </div>
               </div>

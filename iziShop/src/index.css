@@ -11,6 +11,7 @@
   --izishop-erreur: #EF4444;
   --police-principale: 'geist';
   --police-titre: 'Neue Montreal';
+  --rayon-max: 5px; /* Règle unique : aucun élément ne dépasse 5px */
 }
 
 * {
@@ -48,20 +49,19 @@ html {
 .texte-accent { color: var(--izishop-accent) !important; }
 
 /* ==========================================
-   BOUTONS (border-radius max 8px)
+   BOUTONS (border-radius 5px max)
    ========================================== */
 .bouton-principal {
   background-color: var(--izishop-primaire);
   color: var(--izishop-secondaire);
   font-weight: 700;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--rayon-max);
   padding: 10px 16px;
   transition: all 0.3s ease;
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  
 }
 
 .bouton-principal:hover {
@@ -76,9 +76,11 @@ html {
   min-width: 280px;
   border: 1px solid rgba(255, 255, 255, 0.55);
   background: linear-gradient(135deg, #ffd452 0%, var(--izishop-primaire) 48%, #e89d0b 100%);
+  box-shadow: 0 10px 0 #c98008, 18px 30px rgba(145, 91, 0, 0.28);
   box-shadow: 0 10px 0 #c98008, 0 18px 30px rgba(145, 91, 0, 0.28);
   font-size: 1.05rem;
   letter-spacing: 0.01em;
+  border-radius: var(--rayon-max);
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
@@ -174,7 +176,7 @@ html {
   color: var(--izishop-blanc);
   font-weight: 600;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--rayon-max);
   padding: 10px 20px;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -188,12 +190,12 @@ html {
 }
 
 /* ==========================================
-   CARTES (border-radius max 8px, bordures solid simples)
+   CARTES (border-radius 5px max)
    ========================================== */
 .carte-izishop {
   background: var(--izishop-blanc);
   border: 1px solid rgba(30, 41, 59, 0.1);
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
@@ -203,7 +205,7 @@ html {
 }
 
 .bordure-primaire { border: 2px solid var(--izishop-primaire); }
-.arrondi-izishop { border-radius: 8px; }
+.arrondi-izishop { border-radius: var(--rayon-max); }
 .ombre-douce { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 
 /* ==========================================
@@ -244,7 +246,7 @@ html {
   background-color: rgba(251, 190, 36, 0.18);
   border: 1px solid rgba(251, 190, 36, 0.5);
   padding: 4px 14px;
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   font-weight: 700;
   font-size: 0.95rem;
   margin-bottom: 28px;
@@ -296,7 +298,7 @@ html {
 .carte-feature {
   background: #ffffff;
   border: 1px solid rgba(30, 41, 59, 0.1);
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   transition: all 0.3s ease;
   box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.05);
 }
@@ -316,7 +318,7 @@ html {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   color: var(--izishop-secondaire);
 }
 
@@ -399,7 +401,7 @@ html {
   flex-shrink: 0;
   margin: 0 18px;
   border: 1px solid rgba(30, 41, 59, 0.12);
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   background: var(--izishop-blanc);
   transition: all 0.3s ease;
 }
@@ -424,7 +426,7 @@ html {
   text-transform: uppercase;
   background-color: rgba(243, 182, 26, 0.278);
   padding: 4px 10px;
-  border-radius: 5px;
+  border-radius: var(--rayon-max);
 }
 
 /* ==========================================
@@ -436,7 +438,7 @@ html {
 
 .carte-pricing {
   background: var(--izishop-blanc);
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   border: 1px solid rgba(30, 41, 59, 0.1);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
   transition: all 0.4s ease;
@@ -489,7 +491,7 @@ html {
   width: 112%;
   max-width: 900px;
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
 }
 
 /* ==========================================
@@ -532,7 +534,7 @@ html {
 
 .cta-box {
   background: linear-gradient(135deg, var(--izishop-secondaire) 0%, #334155 100%);
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   position: relative;
   overflow: hidden;
 }
@@ -583,7 +585,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--rayon-max);
   color: white;
   text-decoration: none;
   transition: 0.3s;
@@ -611,6 +613,48 @@ html {
 
 .zack:hover {
   background-color: var(--izishop-primaire);
+}
+
+/* ==========================================
+    HARMONISATION GLOBALE — BORDER RADIUS 5px MAX
+   S'applique à tous les composants Bootstrap et
+   custom, sans toucher aux pages déjà maintenues.
+   (Le spinner reste rond : c'est un indicateur de
+   chargement, pas un élément de design.)
+   ========================================== */
+.rounded,
+.rounded-1,
+.rounded-2,
+.rounded-3,
+.rounded-4,
+.rounded-5,
+.rounded-pill,
+.rounded-circle,
+.btn,
+.badge,
+.alert,
+.form-control,
+.form-select,
+.form-check-input,
+.input-group-text,
+.modal-content,
+.modal-content .modal-body,
+.progress,
+.progress-bar,
+.table td,
+.table th,
+.carte-izishop,
+.carte-feature,
+.carte-pricing,
+.carte-avis-scroll,
+.cta-box,
+.social-icon,
+.badge-promo,
+.badge-activite,
+.arrondi-izishop,
+.illustration-pricing,
+img {
+  border-radius: var(--rayon-max) !important;
 }
 
 /* ==========================================
@@ -772,4 +816,48 @@ html {
   html {
     scroll-behavior: auto;
   }
+}
+
+
+/* ==========================================
+   DASHBOARD "FIT-SCREEN" — aucun scroll global
+   Le dashboard tient dans l'écran ; seules les
+   zones internes (commandes / top produits) scrollent.
+   ========================================== */
+.dashboard-fit {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 991.98px) {
+  .dashboard-fit {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+.dashboard-scroll-zone {
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 41, 59, 0.25) transparent;
+}
+
+.dashboard-scroll-zone::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-scroll-zone::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-scroll-zone::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.2);
+  border-radius: 3px;
+}
+
+.dashboard-scroll-zone::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 41, 59, 0.35);
 }

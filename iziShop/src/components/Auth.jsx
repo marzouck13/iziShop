@@ -12,9 +12,9 @@ import { useAuth } from '../context/AuthContext';
 const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { connecter, estConnecte, utilisateur } = useAuth();
+  const { connecter, estConnecte, utilisateur, chargement } = useAuth();
 
-  const [mode, setMode] = useState('register');
+  const [mode, setMode] = useState('login');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', msg: '' });
 
@@ -25,7 +25,6 @@ const Auth = () => {
   const [envoiEnCours, setEnvoiEnCours] = useState(false);
   const [emailRenvoye, setEmailRenvoye] = useState(false);
 
-  // État pour afficher ou masquer le mot de passe
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -33,7 +32,8 @@ const Auth = () => {
     email: '',
     motDePasse: '',
     numeroTelephone: '',
-    pays: 'BJ'
+    pays: 'BJ',
+    codeParrain: ''
   });
 
   const [loginData, setLoginData] = useState({
@@ -42,17 +42,17 @@ const Auth = () => {
   });
 
   // ==========================================
-  // REDIRECTION SI DEJA CONNECTE (AVEC ROLE)
+  // REDIRECTION SI DÉJÀ CONNECTÉ
   // ==========================================
   useEffect(() => {
-    if (estConnecte && utilisateur) {
+    if (!chargement && estConnecte && utilisateur) {
       if (utilisateur.role === 'ADMIN') {
         navigate('/admin/dashboard', { replace: true });
       } else {
         navigate('/dashboard', { replace: true });
       }
     }
-  }, [estConnecte, utilisateur, navigate]);
+  }, [estConnecte, utilisateur, navigate, chargement]);
 
   useEffect(() => {
     if (location.state?.mode) {
@@ -81,7 +81,7 @@ const Auth = () => {
     setLoading(true);
     setStatus({ type: '', msg: '' });
     try {
-      const response = await inscrireVendeur(formData);
+      await inscrireVendeur(formData);
       setEmailInscrit(formData.email);
       setShowSuccessModal(true);
       setFormData({
@@ -89,7 +89,8 @@ const Auth = () => {
         email: '',
         motDePasse: '',
         numeroTelephone: '',
-        pays: 'BJ'
+        pays: 'BJ',
+        codeParrain: ''
       });
     } catch (err) {
       setStatus({
@@ -102,7 +103,7 @@ const Auth = () => {
   };
 
   // ==========================================
-  // CONNEXION (CORRIGE : tokenAcces)
+  // CONNEXION
   // ==========================================
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -114,14 +115,23 @@ const Auth = () => {
 
       if (response.donnees?.utilisateur && response.donnees?.tokenAcces) {
         connecter(response.donnees.utilisateur, response.donnees.tokenAcces);
-        setStatus({ type: 'success', msg: 'Connexion reussie ! Redirection...' });
+        setStatus({ type: 'success', msg: 'Connexion réussie ! Redirection...' });
+        
+        // Redirection après connexion
+        setTimeout(() => {
+          if (response.donnees.utilisateur.role === 'ADMIN') {
+            navigate('/admin/dashboard');
+          } else {
+            navigate('/dashboard');
+          }
+        }, 1000);
       }
     } catch (err) {
       if (err.status === 403 && err.data?.emailNonVerifie) {
         setEmailAVerifier(err.data.email || loginData.email);
         setStatus({
           type: 'warning',
-          msg: err.message || 'Veuillez verifier votre email avant de vous connecter.'
+          msg: err.message || 'Veuillez vérifier votre email avant de vous connecter.'
         });
       } else {
         setStatus({
@@ -135,7 +145,7 @@ const Auth = () => {
   };
 
   // ==========================================
-  // RENVOYER EMAIL DE VERIFICATION
+  // RENVOYER EMAIL DE VÉRIFICATION
   // ==========================================
   const handleRenvoyerEmail = async () => {
     if (!emailAVerifier) return;
@@ -145,7 +155,7 @@ const Auth = () => {
       setEmailRenvoye(true);
       setStatus({
         type: 'success',
-        msg: response.message || 'Un nouvel email de verification a ete envoye.'
+        msg: response.message || 'Un nouvel email de vérification a été envoyé.'
       });
     } catch (err) {
       setStatus({
@@ -163,12 +173,26 @@ const Auth = () => {
     setLoginData({ email: emailInscrit, motDePasse: '' });
   };
 
+  if (chargement) {
+    return (
+      <div className="auth-screen container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+        <div className="spinner-border text-warning" role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="auth-screen mt-10 container-fluid vh-100 d-flex align-items-center justify-content-center">
+      <div className="auth-screen container-fluid min-vh-100 d-flex align-items-center justify-content-center py-4">
         <div
           className="row w-100 shadow-lg rounded-2 overflow-hidden bg-white"
-          style={{ maxWidth: '950px', minHeight: '300px' }}
+          style={{
+            maxWidth: mode === 'register' ? '1100px' : '950px',
+            minHeight: '300px',
+            transition: 'max-width 0.35s ease'
+          }}
         >
           <div className="col-md-6 d-none d-md-block p-0 position-relative">
             <img
@@ -176,16 +200,19 @@ const Auth = () => {
               alt="iziShop Ventes"
               className="w-100 h-100"
               style={{ objectFit: 'cover' }}
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
             />
             <div
               className="position-absolute top-0 start-0 w-100 h-100"
-              style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.12), rgba(30, 41, 59, 0.74))' }}
+              style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.17), #1e293bc2)' }}
             ></div>
             <div className="position-absolute bottom-0 start-0 p-4 text-white">
               <h2 className="fw-bold text-white">Propulsez votre business</h2>
               <p>
                 Vendez partout avec{' '}
-                <span className="strong">
+                <span className="fw-bold">
                   <span className="text-warning">izi</span>Shop.
                 </span>
               </p>
@@ -206,11 +233,11 @@ const Auth = () => {
               </h2>
               <p className="text-center text-muted small mb-2">
                 {mode === 'login'
-                  ? "Heureux de vous revoir ! Connectez-vous a votre espace."
-                  : "Creez votre boutique et beneficiez de nos fonctionnalités"}
+                  ? "Heureux de vous revoir ! Connectez-vous à votre espace."
+                  : "Créez votre boutique et bénéficiez de nos fonctionnalités"}
               </p>
               {status.msg && (
-                <div className={`alert alert-${status.type} py-1 small text-center`} role="alert">
+                <div className={`alert alert-${status.type} py-2 small text-center`} role="alert">
                   {status.msg}
                 </div>
               )}
@@ -225,55 +252,58 @@ const Auth = () => {
                     {envoiEnCours ? (
                       <><span className="spinner-border spinner-border-sm me-1"></span>Envoi...</>
                     ) : emailRenvoye ? (
-                      <>Email renvoye !</>
+                      <>Email renvoyé !</>
                     ) : (
-                      <>Renvoyer l'email de verification</>
+                      <>Renvoyer l'email de vérification</>
                     )}
                   </button>
                 </div>
               )}
               {mode === 'register' ? (
                 <form onSubmit={handleRegister}>
-                  <div className="mb-1">
-                    <label className="form-label small fw-bold">Nom complet</label>
-                    <input
-                      type="text"
-                      name="nomComplet"
-                      className="form-control form-control-lg bg-light border-1"
-                      value={formData.nomComplet}
-                      onChange={handleChange}
-                      placeholder=""
-                      required
-                    />
+                  <div className="row g-2">
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold mb-1">Nom et Prénom complet</label>
+                      <input
+                        type="text"
+                        name="nomComplet"
+                        className="form-control form-control-lg bg-light border-1"
+                        value={formData.nomComplet}
+                        onChange={handleChange}
+                        placeholder="Jean Dupont"
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold mb-1">Adresse e-mail</label>
+                      <input
+                        type="email"
+                        name="email"
+                        className="form-control form-control-lg bg-light border-1"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="jean@exemple.com"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="mb-1">
-                    <label className="form-label small fw-bold">Adresse e-mail</label>
-                    <input
-                      type="email"
-                      name="email"
-                      className="form-control form-control-lg bg-light border-1"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder=""
-                      required
-                    />
-                  </div>
-                  <div className="row">
+
+                  <div className="row g-2 mt-2">
                     <div className="col-6">
-                      <label className="form-label small fw-bold">Pays</label>
+                      <label className="form-label small fw-bold mb-1">Pays</label>
                       <select
                         name="pays"
                         className="form-control form-control-lg bg-light border-1"
                         value={formData.pays}
                         onChange={handleChange}
                         required
-                        aria-label="Selectionner votre pays"
-                        title="Selectionner votre pays"
+                        aria-label="Sélectionner votre pays"
+                        title="Sélectionner votre pays"
                       >
-                        <option value="BJ">Benin</option>
+                        <option value="BJ">Bénin</option>
                         <option value="TG">Togo</option>
-                        <option value="CI">Cote d'Ivoire</option>
-                        <option value="SN">Senegal</option>
+                        <option value="CI">Côte d'Ivoire</option>
+                        <option value="SN">Sénégal</option>
                         <option value="CM">Cameroun</option>
                         <option value="ML">Mali</option>
                         <option value="BF">Burkina Faso</option>
@@ -284,47 +314,62 @@ const Auth = () => {
                       </select>
                     </div>
                     <div className="col-6">
-                      <label className="form-label small fw-bold">Telephone</label>
+                      <label className="form-label small fw-bold mb-1">Téléphone</label>
                       <input
                         type="tel"
                         name="numeroTelephone"
                         className="form-control form-control-lg bg-light border-1"
                         value={formData.numeroTelephone}
                         onChange={handleChange}
-                        placeholder=""
+                        placeholder="+229 XX XX XX XX"
                       />
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label small fw-bold">Mot de passe (Minimum 6 caracteres)</label>
-                    <div className="position-relative">
+
+                  <div className="row g-2 mt-2">
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold mb-1">Code parrain (Optionnel)</label>
                       <input
-                        type={showPassword ? "text" : "password"}
-                        name="motDePasse"
-                        className="form-control form-control-lg bg-light border-1 pe-5"
-                        value={formData.motDePasse}
+                        type="text"
+                        name="codeParrain"
+                        className="form-control form-control-lg bg-light border-1"
+                        value={formData.codeParrain}
                         onChange={handleChange}
-                        placeholder=""
-                        minLength={6}
-                        required
+                        placeholder="IZI-XXXXXX"
                       />
-                      <button
-                        type="button"
-                        className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-2 text-muted"
-                        onClick={() => setShowPassword(!showPassword)}
-                        tabIndex="-1"
-                        style={{ zIndex: 5 }}
-                      >
-                        <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} fs-5`}></i>
-                      </button>
+                    </div>
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold mb-1">Mot de passe (Min. 6 caractères)</label>
+                      <div className="position-relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="motDePasse"
+                          className="form-control form-control-lg bg-light border-1 pe-5"
+                          value={formData.motDePasse}
+                          onChange={handleChange}
+                          placeholder="••••••••"
+                          minLength={6}
+                          required
+                        />
+                        <button
+                          type="button"
+                          className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-2 text-muted"
+                          onClick={() => setShowPassword(!showPassword)}
+                          tabIndex="-1"
+                          style={{ zIndex: 5 }}
+                        >
+                          <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} fs-5`}></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <button className="btn Zouck btn-warning w-100 py-3 fw-bold shadow-sm" disabled={loading}>
-                    {loading ? 'Creation...' : 'Creer ma boutique gratuitement'}
+
+                  <button className="btn btn-warning w-100 py-3 fw-bold shadow-sm mt-3" disabled={loading}>
+                    {loading ? 'Création...' : 'Créer ma boutique gratuitement'}
                   </button>
                   <div className="text-center mt-3">
                     <p className="small text-muted">
-                      Vous avez deja un compte ?<br />
+                      Vous avez déjà un compte ?<br />
                       <button
                         type="button"
                         className="btn btn-link p-0 small fw-bold text-warning text-decoration-none"
@@ -345,7 +390,7 @@ const Auth = () => {
                       className="form-control form-control-lg bg-light border-1"
                       value={loginData.email}
                       onChange={handleChange}
-                      placeholder=""
+                      placeholder="jean@exemple.com"
                       required
                     />
                   </div>
@@ -358,7 +403,7 @@ const Auth = () => {
                         className="form-control form-control-lg bg-light border-1 pe-5"
                         value={loginData.motDePasse}
                         onChange={handleChange}
-                        placeholder=""
+                        placeholder="••••••••"
                         required
                       />
                       <button
@@ -372,19 +417,19 @@ const Auth = () => {
                       </button>
                     </div>
                   </div>
-                  <button className="btn Zouck btn-warning w-100 py-3 fw-bold shadow-sm" disabled={loading}>
+                  <button className="btn btn-warning w-100 py-3 fw-bold shadow-sm" disabled={loading}>
                     {loading ? 'Connexion...' : 'Se connecter'}
                   </button>
                   <div className="text-center mt-4">
                     <p className="small text-muted">
-                      Vous etes nouveau ?
+                      Vous êtes nouveau ?
                       <br />
                       <button
                         type="button"
                         className="btn btn-link p-0 small fw-bold text-warning text-decoration-none"
                         onClick={() => { setMode('register'); setStatus({ type: '', msg: '' }); }}
                       >
-                        Creez un compte
+                        Créez un compte
                       </button>
                     </p>
                   </div>
@@ -407,7 +452,7 @@ const Auth = () => {
               className="modal-dialog modal-dialog-centered"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '16px' }}>
+              <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '8px' }}>
                 <div className="modal-body text-center p-5">
                   <div
                     className="mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle"
@@ -421,7 +466,7 @@ const Auth = () => {
                     <i className="bi bi-check-circle-fill" style={{ fontSize: '3.5rem', color: 'var(--izishop-succes)' }}></i>
                   </div>
                   <h3 className="fw-bold mb-3" style={{ color: 'var(--izishop-secondaire)' }}>
-                    Compte cree avec succes !
+                    Compte créé avec succès !
                   </h3>
                   <div
                     className="p-3 rounded-3 mb-4"
@@ -433,23 +478,23 @@ const Auth = () => {
                     <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
                       <i className="bi bi-envelope-paper-fill fs-4" style={{ color: 'var(--izishop-primaire)' }}></i>
                       <h5 className="fw-bold mb-0" style={{ color: 'var(--izishop-secondaire)' }}>
-                        Verifiez votre boite email
+                        Vérifiez votre boîte email
                       </h5>
                     </div>
                     <p className="small text-muted mb-0">
-                      Nous avons envoye un lien de verification a :<br />
+                      Nous avons envoyé un lien de vérification à :<br />
                       <strong className="text-dark">{emailInscrit}</strong>
                     </p>
                   </div>
                   <p className="text-muted small mb-4">
-                    <strong>Cliquez sur le lien</strong> recu dans votre email pour activer votre compte.
+                    <strong>Cliquez sur le lien</strong> reçu dans votre email pour activer votre compte.
                     <br />
-                    <span className="text-danger">Sans verification, la connexion sera impossible.</span>
+                    <span className="text-danger">Sans vérification, la connexion sera impossible.</span>
                   </p>
                   <div className="d-grid gap-2">
                     <button className="btn btn-warning fw-bold py-2" onClick={fermerModalEtConnecter}>
                       <i className="bi bi-box-arrow-in-right me-2"></i>
-                      J'ai verifie, me connecter
+                      J'ai vérifié, me connecter
                     </button>
                     <button className="btn btn-link text-muted small text-decoration-none" onClick={fermerModalEtConnecter}>
                       Plus tard
@@ -458,7 +503,7 @@ const Auth = () => {
                   <div className="mt-4 pt-3 border-top">
                     <p className="small text-muted mb-0">
                       <i className="bi bi-info-circle me-1"></i>
-                      Vous n'avez pas recu l'email ? Verifiez vos spams ou demandez un renvoi depuis la page de connexion.
+                      Vous n'avez pas reçu l'email ? Vérifiez vos spams ou demandez un renvoi depuis la page de connexion.
                     </p>
                   </div>
                 </div>

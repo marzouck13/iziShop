@@ -1,7 +1,6 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 // Fichier: frontend/src/context/AuthContext.jsx
-// Désactivation de l'avertissement Fast Refresh car on exporte aussi le hook useAuth
-  
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { getUtilisateurConnecte, deconnecter } from '../lib/api';
 
 const AuthContext = createContext();
@@ -16,8 +15,14 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [utilisateur, setUtilisateur] = useState(() => getUtilisateurConnecte());
-  const chargement = false;
+  const [utilisateur, setUtilisateur] = useState(null);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() => {
+    const user = getUtilisateurConnecte();
+    setUtilisateur(user);
+    setChargement(false);
+  }, []);
 
   const connecter = (userData, token) => {
     localStorage.setItem('izishop_token', token);
@@ -25,8 +30,10 @@ export const AuthProvider = ({ children }) => {
     setUtilisateur(userData);
   };
 
-  const deconnexion = () => {
-    deconnecter();
+  const deconnexion = async () => {
+    await deconnecter();
+    localStorage.removeItem('izishop_token');
+    localStorage.removeItem('izishop_user');
     setUtilisateur(null);
   };
 
